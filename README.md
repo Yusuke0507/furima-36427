@@ -16,7 +16,7 @@
 ### Association
 
 - has_many :items
-- has_many :order_detail
+- has_many :order_details
 
 ## items テーブル
 
@@ -38,22 +38,22 @@
 - has_one :order_detail
 
 
-## orders_address テーブル
+## order_addresses テーブル
 
 | Column         | Type       | Options                     |
 | -------------- | -------    | --------------------------- |
 | postal_code    | string     | NOT NULL                    |
 | prefecture_id  | integer    | NOT NULL                    |
-| municipalities | string     | NOT NULL                    |
+| municipality   | string     | NOT NULL                    |
 | address        | string     | NOT NULL                    |
 | building       | string     |                             |
 | phone          | string     | NOT NULL                    |
-| orders_detail  | references | foreign_key: true           |
+| order_detail  | references | foreign_key: true           |
 
 ### Association
 - belongs_to :order_detail
 
-## orders_detail
+## order_details
 
 | Column   | Type       | Options                     |
 |          | ---------- | --------------------------- |
