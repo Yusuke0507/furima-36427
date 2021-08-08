@@ -15,8 +15,9 @@
 
 ### Association
 
-- belongs_to :orders
+- has_many :orders_address
 - has_many :items
+- belongs_to :order_detail
 
 ## items テーブル
 
@@ -29,38 +30,43 @@
 | shipping_fee | integer    | NOT NULL |
 | days_to_ship | integer    | NOT NULL |
 | price        | integer    | NOT NULL |
-| user_id      | references | NOT NULL |
-| order_id     | references | NOT NULL |
+| user         | references | NOT NULL |
 
 ### Association
 
-- belongs_to :users
-- has_many :orders
+- belongs_to :user
+- has_many :orders_address
+- belongs_to :order_detail
+
 
 ## orders_address テーブル
 
-| Column         | Type    | Options  |
-| -------------- | ------- | -------- |
-| postal_code    | integer | NOT NULL |
-| prefectures    | string  | NOT NULL |
-| municipalities | string  | NOT NULL |
-| address        | string  | NOT NULL |
-| building       | string  |          |
-| phone          | integer | NOT NULL |
+| Column         | Type       | Options  |
+| -------------- | -------    | -------- |
+| postal_code    | string     | NOT NULL |
+| prefecture_id  | integer    | NOT NULL |
+| municipalities | string     | NOT NULL |
+| address        | string     | NOT NULL |
+| building       | string     |          |
+| phone          | string     | NOT NULL |
+| orders_detail | references  | NOT NULL |
 
 ### Association
 
 - belongs_to :user
 - has_many :items
+- belongs_to :order_detail
 
-## orders_detail
+## orders_details
 
 | Column   | Type       | Options  |
 |          | ---------- | -------- |
-| items_id | references | NOT NULL |
-| users_id | references | NOT NULL |
+| items    | references | NOT NULL |
+| order    | references | NOT NULL |
+| user     | references | NOT NULL |
 
 ### Association
 
 - has_one :user
 - has_one :item
+- has_one :order_address
