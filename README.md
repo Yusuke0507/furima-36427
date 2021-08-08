@@ -2,71 +2,67 @@
 
 ## users テーブル
 
-| Column                     | Type    | Options  |
-| -----------------          | ------- | -------- |
-| nickname                   | string  | NOT NULL |
-| email                      | string  | NOT NULL |
-| encrypted_password         | string  | NOT NULL |
-| first_name                 | string  | NOT NULL |
-| last_name                  | string  | NOT NULL |
-| pseudonym_first            | string  | NOT NULL |
-| pseudonym_last             | string  | NOT NULL |
-| birthday                   | date    | NOT NULL |
+| Column                     | Type    | Options                |
+| -----------------          | ------- | ---------------------- |
+| nickname                   | string  | NOT NULL               |
+| email                      | string  | NOT NULL, unique: true |
+| encrypted_password         | string  | NOT NULL               |
+| first_name                 | string  | NOT NULL               |
+| last_name                  | string  | NOT NULL               |
+| first_name_kana            | string  | NOT NULL               |
+| last_name_kana             | string  | NOT NULL               |
+| birthday                   | date    | NOT NULL               |
 
 ### Association
 
-- has_many :orders_address
+- has_one :orders_address
 - has_many :items
-- belongs_to :order_detail
+- has_one :order_detail
 
 ## items テーブル
 
-| Column       | Type       | Options  |
-| ------------ | ---------- | -------- |
-| name         | string     | NOT NULL |
-| detail       | text       | NOT NULL |
-| category     | string     | NOT NULL |
-| status       | string     | NOT NULL |
-| shipping_fee | integer    | NOT NULL |
-| days_to_ship | integer    | NOT NULL |
-| price        | integer    | NOT NULL |
-| user         | references | NOT NULL |
+| Column          | Type       | Options                     |
+| --------------- | ---------- | --------------------------- |
+| name            | string     | NOT NULL                    |
+| detail          | text       | NOT NULL                    |
+| category_id     | integer    | NOT NULL                    |
+| status_id       | integer    | NOT NULL                    |
+| shipping_fee_id | integer    | NOT NULL                    |
+| area_id         | integer    | NOT NULL                    |
+| days_to_ship_id | integer    | NOT NULL                    |
+| price           | integer    | NOT NULL                    |
+| user            | references | NOT NULL, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- has_many :orders_address
-- belongs_to :order_detail
+- has_one :order_detail
 
 
 ## orders_address テーブル
 
-| Column         | Type       | Options  |
-| -------------- | -------    | -------- |
-| postal_code    | string     | NOT NULL |
-| prefecture_id  | integer    | NOT NULL |
-| municipalities | string     | NOT NULL |
-| address        | string     | NOT NULL |
-| building       | string     |          |
-| phone          | string     | NOT NULL |
-| orders_detail | references  | NOT NULL |
+| Column         | Type       | Options                     |
+| -------------- | -------    | --------------------------- |
+| postal_code    | string     | NOT NULL                    |
+| prefecture_id  | integer    | NOT NULL                    |
+| municipalities | string     | NOT NULL                    |
+| address        | string     | NOT NULL                    |
+| building       | string     |                             |
+| phone          | string     | NOT NULL                    |
+| item           | string     | NOT NULL                    |
 
 ### Association
 
 - belongs_to :user
-- has_many :items
-- belongs_to :order_detail
 
-## orders_details
+## orders_detail
 
-| Column   | Type       | Options  |
-|          | ---------- | -------- |
-| items    | references | NOT NULL |
-| order    | references | NOT NULL |
-| user     | references | NOT NULL |
+| Column   | Type       | Options                     |
+|          | ---------- | --------------------------- |
+| user     | references | NOT NULL, foreign_key: true |
+| item     | references | NOT NULL, foreign_key: true |
 
 ### Association
 
-- has_one :user
-- has_one :item
-- has_one :order_address
+- belongs_to :user
+- belongs_to :item
