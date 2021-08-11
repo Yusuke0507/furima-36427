@@ -43,7 +43,7 @@ describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping fee is not a number")
       end
-      it '発送限の地域が空では出品できない' do
+      it '発送元の地域が空では出品できない' do
         @item.area_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Area is not a number")
@@ -67,6 +67,46 @@ describe Item, type: :model do
         @item.price = "299"
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not included in the list")
+      end
+      it '価格が半角英字のみでは出品できない' do
+        @item.price = "aaaaa"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
+      end
+      it '価格が半角英数字混合だと出品できない' do
+        @item.price = "a0a0a0a"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
+      end
+      it 'userが紐づいていないと出品できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
+      it '商品状態の項目の選択が1だと出品できない' do
+        @item.status_id = within(range: 1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status is not a number")
+      end
+      it 'カテゴリーの項目の選択が1だと出品できない' do
+        @item.category_id = within(range: 1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category is not a number")
+      end
+      it '配送料の項目の選択が1だと出品できない' do
+        @item.shipping_fee_id = within(range: 1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping fee is not a number")
+      end
+      it '発送元の地域の項目が1だと出品できない' do
+        @item.area_id = within(range: 1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Area is not a number")
+      end
+      it '発送までの日数の項目の選択が1だと出品できない' do
+        @item.days_to_ship_id = within(range: 1)
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Days to ship is not a number")
       end
     end
   end
