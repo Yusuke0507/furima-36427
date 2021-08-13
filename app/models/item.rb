@@ -7,7 +7,6 @@ class Item < ApplicationRecord
   belongs_to :days_to_ship
   belongs_to :user
   has_one_attached :image
-  has_one :address
 
   with_options numericality: { other_than: 1} do
     validates :status_id
